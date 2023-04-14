@@ -1,5 +1,10 @@
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import dynamic from 'next/dynamic';
 import { useWallet } from "@solana/wallet-adapter-react";
+
+const WalletMultiButtonNoSSR = dynamic(
+  () => import("@solana/wallet-adapter-react-ui").then((mod) => mod.WalletMultiButton),
+  { ssr: false }
+);
 
 export const SolanaWallet = () => {
   const { publicKey } = useWallet();
@@ -12,13 +17,13 @@ export const SolanaWallet = () => {
 
   return (
     <div style={{ position: "absolute", top: 0, right: 0 }}>
-      <WalletMultiButton
+      <WalletMultiButtonNoSSR
         style={{
           backgroundImage: "linear-gradient(120deg, #f6d365 0%, #fda085 100%)",
         }}
       >
         <p style={{ color: "#000" }}><b>{walletText}</b></p>
-      </WalletMultiButton>
+      </WalletMultiButtonNoSSR>
     </div>
   );
 };
